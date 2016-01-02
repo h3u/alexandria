@@ -37,6 +37,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
 
+    public static final String TAG_ADD_BOOK_FRAGMENT = "fragment_add_book";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             setContentView(R.layout.activity_main);
         }
 
-        messageReciever = new MessageReciever();
+        messageReciever = new MessageReceiver();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReciever,filter);
 
@@ -65,6 +67,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment;
+        String tag = null;
 
         switch (position){
             default:
@@ -73,15 +76,15 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 break;
             case 1:
                 nextFragment = new AddBook();
+                tag = TAG_ADD_BOOK_FRAGMENT;
                 break;
             case 2:
                 nextFragment = new About();
                 break;
-
         }
 
         fragmentManager.beginTransaction()
-                .replace(R.id.container, nextFragment)
+                .replace(R.id.container, nextFragment, tag)
                 .addToBackStack((String) title)
                 .commit();
     }
@@ -151,7 +154,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     }
 
-    private class MessageReciever extends BroadcastReceiver {
+    private class MessageReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getStringExtra(MESSAGE_KEY)!=null){
@@ -179,4 +182,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_ADD_BOOK_FRAGMENT);
+        fragment.onActivityResult(requestCode, resultCode, data);
+    }
 }
