@@ -8,8 +8,8 @@ and part of the project "Superduo".
 
 ### Must have
 
-- app has barcode scanning functionality
-- does not crash while searching for a book without an internet connection
+- app has barcode scanning functionality √
+- does not crash while searching for a book without an internet connection √
 
 ### Nice to have
 

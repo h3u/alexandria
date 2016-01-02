@@ -72,6 +72,15 @@ public class BookService extends IntentService {
      */
     private void fetchBook(String ean) {
 
+        if (!Utility.hasConnectivity(getApplicationContext())) {
+            // send broadcast to notify user
+            Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+            messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.missing_connection));
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+
+            return;
+        }
+
         if(ean.length()!=13){
             return;
         }
