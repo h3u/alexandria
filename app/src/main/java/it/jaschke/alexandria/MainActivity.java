@@ -149,7 +149,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(id, fragment)
-                .addToBackStack("Book Detail")
+                .addToBackStack(getString(R.string.back_stack_name))
                 .commit();
 
     }
